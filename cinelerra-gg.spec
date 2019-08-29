@@ -1,10 +1,10 @@
-%global commit0 d5a0afb9bc8562f6c2698f88ff40790009a5e63c
+%global commit0 b8cd5c4f5f296f626f5ec691d2440612bcf59422
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global snapshotdate 20181217
+%global snapshotdate 20190801
 
 Name:           cinelerra-gg
 Version:        5.1
-Release:        55.%{snapshotdate}git%{shortcommit0}%{?dist}
+Release:        56.%{snapshotdate}git%{shortcommit0}%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -14,6 +14,9 @@ Summary:        A non linear video editor and effects processor
 License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
 Url:            https://cinelerra-gg.org/
 Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;h=%{commit0};sf=tgz#/%{name}-%{shortcommit0}.tar.gz
+
+# CrystalHD is fouling the ffmpeg build
+Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -109,6 +112,8 @@ BuildArch:      noarch
 %prep
 %setup -q -n cinelerra-%{shortcommit0}/cinelerra-%{version}
 
+%patch0 -p2 -b.crystal
+
 ./autogen.sh
 
 
@@ -129,6 +134,7 @@ BuildArch:      noarch
   --with-ladspa-build=no \
   --with-ladspa-dir=%{_libdir}/ladspa \
   --with-lv2=no \
+  --with-cuda=no \
 
 # WIP
 #  --with-dv=no \
@@ -177,6 +183,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Thu Aug 29 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-56.20190801gitb8cd5c4
+- Update to 2019-08 snapshot version
+- Remove crystalhd from ffmpeg (build fails), turn off CUDA
+
 * Mon Aug 26 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-55.20181217gitd5a0afb
 - Update to 5.1 snapshot with python3 build process
 - Switch to -gg

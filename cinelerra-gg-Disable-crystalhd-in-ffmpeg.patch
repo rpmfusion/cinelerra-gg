@@ -1,0 +1,24 @@
+From 697b3d5c6e41b5b7fbd538cac17426037a4599d1 Mon Sep 17 00:00:00 2001
+From: "FeRD (Frank Dana)" <ferdnyc@gmail.com>
+Date: Thu, 29 Aug 2019 13:19:54 -0400
+Subject: [PATCH] Disable crystalhd in ffmpeg
+
+---
+ cinelerra-5.1/thirdparty/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/cinelerra-5.1/thirdparty/Makefile b/cinelerra-5.1/thirdparty/Makefile
+index 905731e..d738011 100644
+--- a/cinelerra-5.1/thirdparty/Makefile
++++ b/cinelerra-5.1/thirdparty/Makefile
+@@ -111,6 +111,7 @@ esound.ldflags=" -lm -lstdc++"
+ fftw.cfg_params= --disable-fortran --enable-shared=no
+ ffmpeg.cfg_params= \
+ 	--enable-pthreads --enable-gpl --disable-ffplay \
++	--disable-crystalhd \
+ 	$(if $(WANT_VAAPI),--enable-vaapi,--disable-vaapi) \
+ 	$(if $(WANT_VDPAU),--enable-vdpau,--disable-vdpau) \
+ 	$(if $(WANT_NV), --enable-nvenc --enable-nvdec) \
+-- 
+2.21.0
+
