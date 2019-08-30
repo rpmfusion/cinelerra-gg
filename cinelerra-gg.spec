@@ -18,6 +18,10 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
 
+# glibc 2.30+ provides gettid(), protect against redefining in guicast
+# Submitted upstream: https://www.cinelerra-gg.org/bugtracker/view.php?id=290
+Patch1:         cinelerra-gg-gettid-check.patch
+
 # Only tested on x86_64
 ExclusiveArch:  x86_64
 
@@ -57,6 +61,7 @@ BuildRequires:  pkgconfig(libdv)
 BuildRequires:  pkgconfig(libjpeg)
 BuildRequires:  pkgconfig(libtiff-4)
 BuildRequires:  pkgconfig(liblzma)
+BuildRequires:  pkgconfig(libusb)
 BuildRequires:  pkgconfig(libv4l2)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(lv2)
@@ -113,8 +118,12 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{shortcommit0}/cinelerra-%{version}
 
 %patch0 -p2 -b.crystal
+%patch1 -p2 -b.gettid
 
 ./autogen.sh
+
+# Fedora 31+ won't have a "python" command
+sed -i 's/\<python\>/python3/' guicast/Makefile
 
 
 %build
@@ -183,9 +192,12 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
-* Thu Aug 29 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-56.20190801gitb8cd5c4
+* Fri Aug 30 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-56.20190801gitb8cd5c4
 - Update to 2019-08 snapshot version
-- Remove crystalhd from ffmpeg (build fails), turn off CUDA
+- Add libusb build req
+- Remove crystalhd from ffmpeg (build fails), turn off CUDA checks (no compiler) 
+- Replace 'python' command with 'python3' in guicast Makefile
+- Add patch for glibc >= 2.30 gettid() (submitted upstream)
 
 * Mon Aug 26 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-55.20181217gitd5a0afb
 - Update to 5.1 snapshot with python3 build process
