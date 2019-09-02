@@ -34,7 +34,7 @@ BuildRequires:  gettext
 BuildRequires:  libtool
 BuildRequires:  nasm
 BuildRequires:  perl-interpreter
-BuildRequires:  python3
+BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  texinfo
 BuildRequires:  udftools
 BuildRequires:  wget
