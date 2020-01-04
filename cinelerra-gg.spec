@@ -1,10 +1,10 @@
-%global commit0 b8cd5c4f5f296f626f5ec691d2440612bcf59422
+%global commit0 3878a693e0ea8626268a95333a11954cf9c10930
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global snapshotdate 20190801
+%global snapshotdate 20191231
 
 Name:           cinelerra-gg
 Version:        5.1
-Release:        56.%{snapshotdate}git%{shortcommit0}%{?dist}
+Release:        57.%{snapshotdate}git%{shortcommit0}%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -13,14 +13,10 @@ Summary:        A non linear video editor and effects processor
 # The freeverb components and the Tapeworm font are in the public Domain
 License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
 Url:            https://cinelerra-gg.org/
-Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;h=%{commit0};sf=tgz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;h=%{commit0};sf=tbz2#/%{name}-%{shortcommit0}.tar.bz2
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-
-# glibc 2.30+ provides gettid(), protect against redefining in guicast
-# Submitted upstream: https://www.cinelerra-gg.org/bugtracker/view.php?id=290
-Patch1:         cinelerra-gg-gettid-check.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -43,16 +39,16 @@ BuildRequires:  yasm
 BuildRequires:  CImg-devel
 BuildRequires:  jbigkit-devel
 BuildRequires:  kernel-headers
-BuildRequires:  giflib-devel
-BuildRequires:  ladspa-devel
 BuildRequires:  lame-devel
-BuildRequires:  liba52-devel
 BuildRequires:  lilv-devel
 BuildRequires:  pulseaudio-utils
-BuildRequires:  numactl-devel
 BuildRequires:  perl(XML::LibXML)
 BuildRequires:  perl(XML::Parser)
 BuildRequires:  pkgconfig(alsa)
+BuildRequires:  pkgconfig(aom)
+BuildRequires:  pkgconfig(bzip2)
+BuildRequires:  pkgconfig(dav1d)
+BuildRequires:  pkgconfig(flac)
 BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(gtk+-2.0)
 BuildRequires:  pkgconfig(gl)
@@ -63,11 +59,14 @@ BuildRequires:  pkgconfig(libtiff-4)
 BuildRequires:  pkgconfig(liblzma)
 BuildRequires:  pkgconfig(libusb)
 BuildRequires:  pkgconfig(libv4l2)
+BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(libwebp)
 BuildRequires:  pkgconfig(lv2)
 BuildRequires:  pkgconfig(mjpegtools)
 BuildRequires:  pkgconfig(ncurses)
-BuildRequires:  pkgconfig(opencv)
+BuildRequires:  pkgconfig(numa)
+#BuildRequires:  pkgconfig(opencv)
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(sndfile)
@@ -118,7 +117,6 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{shortcommit0}/cinelerra-%{version}
 
 %patch0 -p2 -b.crystal
-%patch1 -p2 -b.gettid
 
 ./autogen.sh
 
@@ -127,23 +125,43 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
 
 
 %build
+
+# Temporarily turn off hardening (just for the configure step), as
+# it breaks OpenEXR detection. It'll be re-enabled before building.
+%undefine _hardened_build
+
 %configure \
   --with-exec-name=%{name} \
-  --enable-lame=shared \
-  --enable-libogg=shared \
-  --enable-libtheora=shared \
-  --enable-libvorbis=shared \
-  --enable-openjpeg=shared \
-  --enable-twolame=shared \
-  --enable-x264=shared \
-  --enable-x265=shared \
-  --enable-libvpx=yes \
+  --disable-static-build \
+  --enable-a52dec=yes \
+  --enable-dav1d=auto \
+  --enable-flac=yes \
+  --enable-fftw=auto \
+  --enable-lame=auto \
+  --enable-libaom=auto \
+  --enable-libdv=auto \
+  --enable-libjpeg=auto \
+  --enable-libogg=auto \
+  --enable-libsndfile=auto \
+  --enable-libtheora=auto \
+  --enable-libvorbis=auto \
+  --enable-libvpx=auto \
+  --enable-libwebp=auto \
+  --enable-lilv=auto \
+  --enable-lv2=shared \
+  --enable-openjpeg=auto \
+  --enable-opus=auto \
+  --enable-tiff=auto \
+  --enable-twolame=auto \
+  --enable-x264=auto \
+  --enable-x265=auto \
   --with-browser=xdg-open \
-  --with-firewire=no \
-  --with-ladspa-build=no \
+  --without-cuda \
+  --without-firewire \
+  --without-ladspa-build \
   --with-ladspa-dir=%{_libdir}/ladspa \
-  --with-lv2=no \
-  --with-cuda=no \
+  --without-opencv \
+  --with-openexr \
 
 # WIP
 #  --with-dv=no \
@@ -155,6 +173,9 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
 #  --with-commercial=no \
 #  --with-libzmpeg=no \
 #  --enable-static-build=no \
+
+# Re-enable hardening
+%define _hardened_build 1
 
 %make_build V=0
 
@@ -192,6 +213,11 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Wed Jan 01 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-56.20191231git3878a69
+- New upstream 2019-12 snapshot release, switch to .tar.bz2 archives
+- Drop upstreamed patches, rebase crystalhd patch
+- Enable LV2 plugin support
+
 * Fri Aug 30 2019 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1-56.20190801gitb8cd5c4
 - Update to 2019-08 snapshot version
 - Add libusb build req
