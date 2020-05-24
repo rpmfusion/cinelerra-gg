@@ -4,7 +4,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1
-Release:        58.%{snapshotdate}git%{shortcommit0}%{?dist}
+Release:        59.%{snapshotdate}git%{shortcommit0}%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -213,6 +213,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sun May 24 2020 Leigh Scott <leigh123linux@gmail.com> - 5.1-59.20191231git3878a69
+- Rebuild for dav1d SONAME bump
+
 * Tue Feb 04 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 5.1-58.20191231git3878a69
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
