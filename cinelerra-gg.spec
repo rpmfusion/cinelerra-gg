@@ -1,10 +1,9 @@
-%global commit0 3878a693e0ea8626268a95333a11954cf9c10930
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global snapshotdate 20191231
+%global git_tag 2020-06
+%global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
-Version:        5.1
-Release:        59.%{snapshotdate}git%{shortcommit0}%{?dist}
+Version:        5.1%{?tag_version:.%{tag_version}}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -13,7 +12,7 @@ Summary:        A non linear video editor and effects processor
 # The freeverb components and the Tapeworm font are in the public Domain
 License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
 Url:            https://cinelerra-gg.org/
-Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;h=%{commit0};sf=tbz2#/%{name}-%{shortcommit0}.tar.bz2
+Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;sf=tgz;h=refs/tags/%{git_tag}#/%{name}-%{git_tag}.tar.gz
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
@@ -114,7 +113,7 @@ BuildArch:      noarch
 
 
 %prep
-%setup -q -n cinelerra-%{shortcommit0}/cinelerra-%{version}
+%setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
 
 %patch0 -p2 -b.crystal
 
@@ -193,12 +192,8 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %license plugins/theme_neophyte/Neophyte_License.txt
 %doc README
 %{_bindir}/%{name}
-%{_bindir}/cin_db
-%{_bindir}/zmpeg3cat
 %{_bindir}/zmpeg3cc2txt
 %{_bindir}/zmpeg3ifochk
-%{_bindir}/zmpeg3show
-%{_bindir}/zmpeg3toc
 %{_bindir}/bdwrite
 %{_datadir}/%{name}/
 %exclude %{_datadir}/%{name}/doc
@@ -213,6 +208,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jul 04 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-1
+- New upstream release, migrate to new package versioning
+
 * Sun May 24 2020 Leigh Scott <leigh123linux@gmail.com> - 5.1-59.20191231git3878a69
 - Rebuild for dav1d SONAME bump
 
