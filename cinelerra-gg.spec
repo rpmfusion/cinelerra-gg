@@ -16,6 +16,8 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
+# Insert patches for various thirdparty libs' 'waflib' shebangs
+Patch1:		waf-python3.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -116,6 +118,7 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
 
 %patch0 -p2 -b.crystal
+%patch1 -p2 -b.waf_python
 
 ./autogen.sh
 
@@ -210,6 +213,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %changelog
 * Sat Jul 04 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-1
 - New upstream release, migrate to new package versioning
+- Patch all bundled Python code to run with python3
 
 * Sun May 24 2020 Leigh Scott <leigh123linux@gmail.com> - 5.1-59.20191231git3878a69
 - Rebuild for dav1d SONAME bump
