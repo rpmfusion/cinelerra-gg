@@ -3,7 +3,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -16,8 +16,8 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-# Insert patches for various thirdparty libs' 'waflib' shebangs
-Patch1:		waf-python3.patch
+# Fix configure logic for lv2 dependencies
+Patch1:		0001-Fix-lv2-dep-logic.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -41,7 +41,6 @@ BuildRequires:  CImg-devel
 BuildRequires:  jbigkit-devel
 BuildRequires:  kernel-headers
 BuildRequires:  lame-devel
-BuildRequires:  lilv-devel
 BuildRequires:  pulseaudio-utils
 BuildRequires:  perl(XML::LibXML)
 BuildRequires:  perl(XML::Parser)
@@ -63,6 +62,7 @@ BuildRequires:  pkgconfig(libv4l2)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(libwebp)
+BuildRequires:  pkgconfig(lilv-0)
 BuildRequires:  pkgconfig(lv2)
 BuildRequires:  pkgconfig(mjpegtools)
 BuildRequires:  pkgconfig(ncurses)
@@ -70,7 +70,9 @@ BuildRequires:  pkgconfig(numa)
 #BuildRequires:  pkgconfig(opencv)
 BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(opus)
+BuildRequires:  pkgconfig(serd-0)
 BuildRequires:  pkgconfig(sndfile)
+BuildRequires:  pkgconfig(sord-0)
 BuildRequires:  pkgconfig(sratom-0)
 BuildRequires:  pkgconfig(suil-0)
 BuildRequires:  pkgconfig(theora)
@@ -118,7 +120,7 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
 
 %patch0 -p2 -b.crystal
-%patch1 -p2 -b.waf_python
+%patch1 -p2 -b.lv2_deps
 
 ./autogen.sh
 
@@ -149,10 +151,14 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
   --enable-libvorbis=auto \
   --enable-libvpx=auto \
   --enable-libwebp=auto \
-  --enable-lilv=auto \
+  --enable-lilv=shared \
   --enable-lv2=shared \
   --enable-openjpeg=auto \
   --enable-opus=auto \
+  --enable-serd=shared \
+  --enable-sord=shared \
+  --enable-sratom=shared \
+  --enable-suil=shared \
   --enable-tiff=auto \
   --enable-twolame=auto \
   --enable-x264=auto \
@@ -211,6 +217,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 07 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-2
+- Switch to shared liblilv (also removes its build dependencies from
+  the build: serd, sord, sratom, suil)
+
 * Sat Jul 04 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-1
 - New upstream release, migrate to new package versioning
 - Patch all bundled Python code to run with python3
