@@ -17,6 +17,7 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
 # Fix configure logic for lv2 dependencies
+# Submitted upstream: https://www.cinelerra-gg.org/bugtracker/view.php?id=473
 Patch1:		0001-Fix-lv2-dep-logic.patch
 
 # Only tested on x86_64
