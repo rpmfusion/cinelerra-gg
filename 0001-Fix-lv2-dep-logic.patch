@@ -1,0 +1,38 @@
+From 2eaebaa4151529fef14c72b2e724e54b8f74ae23 Mon Sep 17 00:00:00 2001
+From: "FeRD (Frank Dana)" <ferdnyc@gmail.com>
+Date: Tue, 7 Jul 2020 18:39:32 -0400
+Subject: [PATCH] Fix lv2 dep logic
+
+---
+ cinelerra-5.1/configure.ac | 15 ---------------
+ 1 file changed, 15 deletions(-)
+
+diff --git a/cinelerra-5.1/configure.ac b/cinelerra-5.1/configure.ac
+index daa267f..4350127 100644
+--- a/cinelerra-5.1/configure.ac
++++ b/cinelerra-5.1/configure.ac
+@@ -741,21 +741,6 @@ CHECK_WANT([LV2], [auto], [use lv2], [
+  CFLAGS="-I/usr/include/suil-0 -I/usr/local/include/suil-0"
+  CHECK_HEADERS([lv2], [suil headers], [suil/suil.h])
+  CFLAGS="$saved_CFLAGS"])
+-# have all or none
+-test "x$HAVE_lv2" = "xyes" && \
+-test "x$HAVE_lilv" = "xyes" && \
+-test "x$HAVE_sord" = "xyes" && \
+-test "x$HAVE_serd" = "xyes" && \
+-test "x$HAVE_sratom" = "xyes" && \
+-test "x$HAVE_suil" = "xyes" && \
+-  HAVE_LV2=yes || \
+-HAVE_lv2=no && \
+-HAVE_lilv=no && \
+-HAVE_sord=no && \
+-HAVE_serd=no && \
+-HAVE_sratom=no && \
+-HAVE_suil=no && \
+-  HAVE_LV2=no
+ 
+ CHECK_WANT([CUDA], [auto], [build cuda plugins], [
+   CHECK_HEADERS([CUDA], [cuda sdk], [${CUDA_PATH:-/usr/local/cuda}/include/cuda.h])])
+-- 
+2.26.2
+
