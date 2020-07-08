@@ -3,7 +3,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -18,7 +18,7 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
 # Fix configure logic for lv2 dependencies
 # Submitted upstream: https://www.cinelerra-gg.org/bugtracker/view.php?id=473
-Patch1:		0001-Fix-lv2-dep-logic.patch
+Patch1:		0001-Fix-interdependency-checks.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -53,9 +53,12 @@ BuildRequires:  pkgconfig(flac)
 BuildRequires:  pkgconfig(fftw3)
 BuildRequires:  pkgconfig(gtk+-2.0)
 BuildRequires:  pkgconfig(gl)
+BuildRequires:  pkgconfig(IlmBase)
 BuildRequires:  pkgconfig(lcms2)
 BuildRequires:  pkgconfig(libdv)
 BuildRequires:  pkgconfig(libjpeg)
+BuildRequires:  pkgconfig(libpulse)
+BuildRequires:  pkgconfig(libpulse-simple)
 BuildRequires:  pkgconfig(libtiff-4)
 BuildRequires:  pkgconfig(liblzma)
 BuildRequires:  pkgconfig(libusb)
@@ -121,7 +124,7 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
 
 %patch0 -p2 -b.crystal
-%patch1 -p2 -b.lv2_deps
+%patch1 -p2 -b.all_or_none
 
 ./autogen.sh
 
@@ -142,6 +145,7 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
   --enable-dav1d=auto \
   --enable-flac=yes \
   --enable-fftw=auto \
+  --enable-ilmBase=shared \
   --enable-lame=auto \
   --enable-libaom=auto \
   --enable-libdv=auto \
@@ -155,6 +159,8 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
   --enable-lilv=shared \
   --enable-lv2=shared \
   --enable-openjpeg=auto \
+  --enable-openexr=shared \
+  --enable-openExr=shared \
   --enable-opus=auto \
   --enable-serd=shared \
   --enable-sord=shared \
@@ -171,6 +177,7 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
   --with-ladspa-dir=%{_libdir}/ladspa \
   --without-opencv \
   --with-openexr \
+  --with-pulse \
 
 # WIP
 #  --with-dv=no \
@@ -181,7 +188,6 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
 #  --with-thirdparty=no \
 #  --with-commercial=no \
 #  --with-libzmpeg=no \
-#  --enable-static-build=no \
 
 # Re-enable hardening
 %define _hardened_build 1
@@ -218,6 +224,11 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jul 07 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-3
+- Update configure.ac patch to fix all interdependency checks
+- Use shared libs for some parts of IlmBase (OpenEXR dependency)
+- Enable pulseaudio support
+
 * Tue Jul 07 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-2
 - Switch to shared liblilv (also removes its build dependencies from
   the build: serd, sord, sratom, suil)
