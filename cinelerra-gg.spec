@@ -1,9 +1,9 @@
-%global git_tag 2020-06
+%global git_tag 2020-07
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -16,9 +16,6 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-# Fix configure logic for lv2 dependencies
-# Submitted upstream: https://www.cinelerra-gg.org/bugtracker/view.php?id=473
-Patch1:		0001-Fix-interdependency-checks.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -124,7 +121,6 @@ BuildArch:      noarch
 %setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
 
 %patch0 -p2 -b.crystal
-%patch1 -p2 -b.all_or_none
 
 ./autogen.sh
 
@@ -224,6 +220,10 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Aug 04 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.07-1
+- Update to latest monthly release
+- Drop upstreamed patch
+
 * Tue Jul 07 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.06-3
 - Update configure.ac patch to fix all interdependency checks
 - Use shared libs for some parts of IlmBase (OpenEXR dependency)
