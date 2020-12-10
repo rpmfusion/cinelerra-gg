@@ -118,10 +118,9 @@ BuildArch:      noarch
 
 
 %prep
-%setup -q -n cinelerra-%{git_tag}/cinelerra-5.1
+%autosetup -p1 -n cinelerra-%{git_tag}
 
-%patch0 -p2 -b.crystal
-
+cd cinelerra-5.1
 ./autogen.sh
 
 # Fedora 31+ won't have a "python" command
@@ -134,6 +133,7 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
 # it breaks OpenEXR detection. It'll be re-enabled before building.
 %undefine _hardened_build
 
+cd cinelerra-5.1
 %configure \
   --with-exec-name=%{name} \
   --disable-static-build \
@@ -192,17 +192,18 @@ sed -i 's/\<python\>/python3/' guicast/Makefile
 
 
 %install
+pushd cinelerra-5.1
 %make_install V=0
+popd
 
 desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
-
 
 %find_lang %{name}
 
 %files -f %{name}.lang
-%license COPYING
-%license plugins/theme_neophyte/Neophyte_License.txt
-%doc README
+%license cinelerra-5.1/COPYING
+%license cinelerra-5.1/plugins/theme_neophyte/Neophyte_License.txt
+%doc cinelerra-5.1/README
 %{_bindir}/%{name}
 %{_bindir}/zmpeg3cc2txt
 %{_bindir}/zmpeg3ifochk
