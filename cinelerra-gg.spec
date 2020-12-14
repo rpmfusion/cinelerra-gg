@@ -16,6 +16,7 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
+Patch1:		cinelerra-gg-patch-openexr.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -223,6 +224,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %changelog
 * Sat Dec 05 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.10-1
 - New upstream monthly release
+- Add GCC 11 patch for internal OpenEXR
 
 * Mon Aug 17 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 5.1.2020.07-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
