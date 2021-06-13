@@ -3,7 +3,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -224,6 +224,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sun Jun 13 2021 Robert-André Mauchin <zebob.m@gmail.com> - 5.1.2020.10-2
+- Rebuild for new aom
+
 * Sat Dec 05 2020 FeRD (Frank Dana) <ferdnyc@gmail.com> - 5.1.2020.10-1
 - New upstream monthly release
 - Add GCC 11 patch for internal OpenEXR
