@@ -1,9 +1,9 @@
-%global git_tag 2020-10
+%global git_tag 2022-03
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        6%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -16,9 +16,6 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-# Reported upstream
-# https://www.cinelerra-gg.org/bugtracker/view.php?id=543
-Patch1:		cinelerra-gg-patch-openexr.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -224,6 +221,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Apr 26 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.03-1
+- Update to latest monthly release
+
 * Mon Feb 07 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2020.10-6
 - Rebuild for libvpx
 
