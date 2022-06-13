@@ -30,6 +30,7 @@ BuildRequires:  libtool
 BuildRequires:  nasm
 BuildRequires:  perl-interpreter
 BuildRequires:  python%{python3_pkgversion}
+BuildRequires:  python-unversioned-command
 BuildRequires:  texinfo
 BuildRequires:  udftools
 BuildRequires:  wget
@@ -122,10 +123,6 @@ BuildArch:      noarch
 
 cd cinelerra-5.1
 ./autogen.sh
-
-# Fedora 31+ won't have a "python" command
-sed -i 's/\<python\>/python3/' guicast/Makefile
-
 
 %build
 
