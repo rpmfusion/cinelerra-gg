@@ -1,4 +1,4 @@
-%global git_tag 2022-04
+%global git_tag 2022-05
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
@@ -221,6 +221,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Jun 13 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.05-1
+- Update to latest monthly release
+
 * Fri May 27 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.04-1
 - Update to latest monthly release
 
