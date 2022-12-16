@@ -3,7 +3,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -64,6 +64,7 @@ BuildRequires:  pkgconfig(libv4l2)
 BuildRequires:  pkgconfig(libva)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(libwebp)
+BuildRequires:  pkgconfig(libzstd)
 BuildRequires:  pkgconfig(lilv-0)
 BuildRequires:  pkgconfig(lv2)
 BuildRequires:  pkgconfig(mjpegtools)
@@ -218,6 +219,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Fri Dec 16 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.11-2
+- Add missing build requires
+
 * Fri Dec 16 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.11-1
 - Update to latest monthly release
 
