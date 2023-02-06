@@ -6,7 +6,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -224,6 +224,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Feb 06 2023 Nicolas Chauvet <kwizart@gmail.com> - 5.1.2023.01-2
+- Disable lto - rhbz#6570
+
 * Mon Feb 06 2023 Leigh Scott <leigh123linux@gmail.com> - 5.1.2023.01-1
 - Update to latest monthly release
 
