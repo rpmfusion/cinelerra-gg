@@ -1,3 +1,6 @@
+# disable lto rfbz#6570
+%global _lto_cflags %nil
+
 %global git_tag 2023-01
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
