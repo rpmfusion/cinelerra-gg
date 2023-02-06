@@ -1,9 +1,9 @@
-%global git_tag 2022-11
+%global git_tag 2023-01
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -220,6 +220,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Feb 06 2023 Leigh Scott <leigh123linux@gmail.com> - 5.1.2023.01-1
+- Update to latest monthly release
+
 * Mon Feb 06 2023 Nicolas Chauvet <kwizart@gmail.com> - 5.1.2022.11-3
 - Add missing autoconf-archive - rhbz#6570
 
