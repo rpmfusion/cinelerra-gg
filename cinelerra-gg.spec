@@ -3,7 +3,7 @@
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -20,6 +20,7 @@ Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
 # Only tested on x86_64
 ExclusiveArch:  x86_64
 
+BuildRequires:  autoconf-archive
 BuildRequires:  cmake
 BuildRequires:  ctags
 BuildRequires:  curl
@@ -219,6 +220,9 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Mon Feb 06 2023 Nicolas Chauvet <kwizart@gmail.com> - 5.1.2022.11-3
+- Add missing autoconf-archive - rhbz#6570
+
 * Fri Dec 16 2022 Leigh Scott <leigh123linux@gmail.com> - 5.1.2022.11-2
 - Add missing build requires
 
