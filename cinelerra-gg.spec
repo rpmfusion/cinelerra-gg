@@ -195,7 +195,7 @@ pushd cinelerra-5.1
 %make_install V=0
 popd
 
-desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %find_lang %{name}
 
