@@ -19,8 +19,6 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-# https://www.cinelerra-gg.org/bugtracker/view.php?id=634
-Patch1:         0001-possible-fix-for-gcc-13-openexr-2.4.1.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
