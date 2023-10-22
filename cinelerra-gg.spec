@@ -1,5 +1,8 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
+%if 0%{?fedora} && 0%{?fedora} >= 40
+%global optflags %(echo %{optflags} | sed 's/-Werror=implicit-function-declaration / /')
+%endif
 
 %global git_tag 2023-09
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
