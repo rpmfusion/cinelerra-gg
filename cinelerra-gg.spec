@@ -4,7 +4,7 @@
 %global optflags %(echo %{optflags} | sed 's/-Werror=implicit-function-declaration / /')
 %endif
 
-%global git_tag 2023-09
+%global git_tag 2023-11
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
@@ -227,6 +227,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Fri Jan 05 2024 Leigh Scott <leigh123linux@gmail.com> - 5.1.2023.11-1
+- Update to latest monthly release
+
 * Sun Oct 22 2023 Leigh Scott <leigh123linux@gmail.com> - 5.1.2023.09-1
 - Update to latest monthly release
 
