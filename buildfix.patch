@@ -1,0 +1,24 @@
+--- /dev/null
++++ b/cinelerra-5.1/thirdparty/src/mjpegtools-2.1.0.patch9
+@@ -0,0 +1,21 @@
++--- mjpegtools-2.1.0/configure.ac.orig
+++++ mjpegtools-2.1.0/configure.ac
++@@ -467,17 +467,6 @@
++        host_mod_cpu=`echo $host_cpu | tr _ -`
++        ARCHFLAGS="-march=$host_mod_cpu -mcpu=$host_mod_cpu"
++     fi
++-  else
++-    if test ! -r $srcdir/cpuinfo.sh; then
++-       AC_MSG_ERROR([cpuinfo.sh script not found - do a cvs update])
++-    fi
++-    AC_MSG_CHECKING(sub-architecture settings)
++-    chmod +x $srcdir/cpuinfo.sh
++-    if test x$have_x86cpu = xtrue; then
++-       ARCHFLAGS=`$srcdir/cpuinfo.sh x86`
++-    elif test x$have_ppccpu = xtrue; then
++-       ARCHFLAGS=`$srcdir/cpuinfo.sh ppc`
++-    fi
++   fi
++   AC_MSG_RESULT($ARCHFLAGS)
++ fi
++

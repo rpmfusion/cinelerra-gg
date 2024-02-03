@@ -1,15 +1,13 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
-%if 0%{?fedora} && 0%{?fedora} >= 40
-%global optflags %(echo %{optflags} | sed 's/-Werror=implicit-function-declaration / /')
-%endif
+%global build_type_safety_c 0
 
-%global git_tag 2023-11
+%global git_tag 2024-01
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        3%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -22,6 +20,7 @@ Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snap
 
 # CrystalHD is fouling the ffmpeg build
 Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
+Patch1:         buildfix.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -227,6 +226,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Feb 03 2024 Leigh Scott <leigh123linux@gmail.com> - 5.1.2024.01-1
+- Update to latest monthly release
+
 * Sat Feb 03 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 5.1.2023.11-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
 
