@@ -17,9 +17,7 @@ License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
 Url:            https://cinelerra-gg.org/
 Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;sf=tgz;h=refs/tags/%{git_tag}#/%{name}-%{git_tag}.tar.gz
 
-# CrystalHD is fouling the ffmpeg build
-Patch0:         cinelerra-gg-Disable-crystalhd-in-ffmpeg.patch
-Patch1:         buildfix.patch
+Patch0:         buildfix.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
