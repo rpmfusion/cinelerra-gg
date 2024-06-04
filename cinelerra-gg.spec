@@ -1,7 +1,7 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
 
-%global git_tag 2024-02
+%global git_tag 2024-05
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
@@ -225,6 +225,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jun 04 2024 Leigh Scott <leigh123linux@gmail.com> - 5.1.2024.05-1
+- Update to latest monthly release
+
 * Tue Apr 16 2024 Leigh Scott <leigh123linux@gmail.com> - 5.1.2024.02-1
 - Update to latest monthly release
 
