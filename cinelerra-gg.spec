@@ -1,7 +1,7 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
 
-%global git_tag 2024-10
+%global git_tag 2024-12
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
@@ -18,6 +18,7 @@ Url:            https://cinelerra-gg.org/
 Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;sf=tgz;h=refs/tags/%{git_tag}#/%{name}-%{git_tag}.tar.gz
 
 Patch0:         buildfix.patch
+Patch1:         fix_upstreams_pathetic_makefile.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -75,7 +76,6 @@ BuildRequires:  pkgconfig(mjpegtools)
 BuildRequires:  pkgconfig(ncurses)
 BuildRequires:  pkgconfig(numa)
 #BuildRequires:  pkgconfig(opencv)
-BuildRequires:  pkgconfig(OpenEXR)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(serd-0)
 BuildRequires:  pkgconfig(sndfile)
@@ -88,8 +88,6 @@ BuildRequires:  pkgconfig(uuid)
 BuildRequires:  pkgconfig(vdpau)
 BuildRequires:  pkgconfig(vorbis)
 BuildRequires:  pkgconfig(vpx)
-BuildRequires:  pkgconfig(x264)
-BuildRequires:  pkgconfig(x265)
 BuildRequires:  pkgconfig(xft)
 BuildRequires:  pkgconfig(xinerama)
 BuildRequires:  pkgconfig(xv)
@@ -157,8 +155,6 @@ cd cinelerra-5.1
   --enable-lilv=shared \
   --enable-lv2=shared \
   --enable-openjpeg=auto \
-  --enable-openexr=shared \
-  --enable-openExr=shared \
   --enable-opus=auto \
   --enable-serd=shared \
   --enable-sord=shared \
@@ -166,8 +162,6 @@ cd cinelerra-5.1
   --enable-suil=shared \
   --enable-tiff=auto \
   --enable-twolame=auto \
-  --enable-x264=auto \
-  --enable-x265=auto \
   --with-browser=xdg-open \
   --without-cuda \
   --without-firewire \
@@ -223,6 +217,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Jan 25 2025 Leigh Scott <leigh123linux@gmail.com> - 5.1.2024.12-1
+- Update to latest monthly release
+
 * Thu Dec 12 2024 Leigh Scott <leigh123linux@gmail.com> - 5.1.2024.10-1
 - Update to latest monthly release
 
