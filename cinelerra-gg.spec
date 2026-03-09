@@ -1,12 +1,12 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
 
-%global git_tag 2025-06
+%global git_tag 2026-02
 %global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -18,7 +18,6 @@ Url:            https://cinelerra-gg.org/
 Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;sf=tgz;h=refs/tags/%{git_tag}#/%{name}-%{git_tag}.tar.gz
 
 Patch0:         buildfix.patch
-Patch1:         fix_upstreams_pathetic_makefile.patch
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -217,6 +216,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Thu Mar 05 2026 Leigh Scott <leigh123linux@gmail.com> - 5.1.2026.02-1
+- Update to latest monthly release
+
 * Mon Feb 02 2026 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 5.1.2025.06-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_44_Mass_Rebuild
 
