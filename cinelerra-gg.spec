@@ -1,12 +1,12 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
 
-%global git_tag 2026-02
-%global tag_version %(c=%{git_tag}; echo "${c}" | tr '-' '.')
+%global git_date 20260531
+%global tag_version 2026.06
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -14,38 +14,30 @@ Summary:        A non linear video editor and effects processor
 # The Neophyte theme is licensed Creative Commons CC-BY 4.0
 # The freeverb components and the Tapeworm font are in the public Domain
 License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
-Url:            https://cinelerra-gg.org/
-Source0:        https://git.cinelerra-gg.org/git/?p=goodguy/cinelerra.git;a=snapshot;sf=tgz;h=refs/tags/%{git_tag}#/%{name}-%{git_tag}.tar.gz
-
-Patch0:         buildfix.patch
+URL:            https://cinelerra-gg.org/
+# https://download.cinelerra-gg.org/?path=src
+Source0:        https://download.cinelerra-gg.org/download.php?file=pkgs%2Fsrc%2Fcin_5.1.%{git_tag}-src.tgz#/cin_5.1.%{git_date}-src.tgz
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
 
 BuildRequires:  autoconf-archive
 BuildRequires:  cmake
-BuildRequires:  ctags
 BuildRequires:  curl
 BuildRequires:  gcc-c++
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  libtool
 BuildRequires:  nasm
+BuildRequires:  yasm
 BuildRequires:  perl-interpreter
 BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  python-unversioned-command
 BuildRequires:  texinfo
 BuildRequires:  udftools
-BuildRequires:  wget
-BuildRequires:  yasm
-
-BuildRequires:  CImg-devel
 BuildRequires:  jbigkit-devel
 BuildRequires:  kernel-headers
 BuildRequires:  lame-devel
-BuildRequires:  pulseaudio-utils
-BuildRequires:  perl(XML::LibXML)
-BuildRequires:  perl(XML::Parser)
 BuildRequires:  pkgconfig(alsa)
 BuildRequires:  pkgconfig(aom)
 BuildRequires:  pkgconfig(bzip2)
@@ -121,9 +113,7 @@ BuildArch:      noarch
 
 
 %prep
-%autosetup -p1 -n cinelerra-%{git_tag}
-
-cd cinelerra-5.1
+%autosetup -p1 -n cinelerra-5.1
 ./autogen.sh
 
 %build
@@ -132,7 +122,6 @@ cd cinelerra-5.1
 # it breaks OpenEXR detection. It'll be re-enabled before building.
 %undefine _hardened_build
 
-cd cinelerra-5.1
 %configure \
   --with-exec-name=%{name} \
   --disable-static-build \
@@ -187,18 +176,16 @@ cd cinelerra-5.1
 
 
 %install
-pushd cinelerra-5.1
 %make_install V=0
-popd
 
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 %find_lang %{name}
 
 %files -f %{name}.lang
-%license cinelerra-5.1/COPYING
-%license cinelerra-5.1/plugins/theme_neophyte/Neophyte_License.txt
-%doc cinelerra-5.1/README
+%license COPYING
+%license plugins/theme_neophyte/Neophyte_License.txt
+%doc README
 %{_bindir}/%{name}
 %{_bindir}/zmpeg3cc2txt
 %{_bindir}/zmpeg3ifochk
@@ -216,6 +203,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Tue Jun 23 2026 Leigh Scott <leigh123linux@gmail.com> - 5.1.2026.06-1
+- Update to latest monthly release
+
 * Fri Mar 20 2026 Nicolas Chauvet <kwizart@gmail.com> - 5.1.2026.02-2
 - Rebuilt for libvpx-1.16.0
 
