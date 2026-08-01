@@ -1,12 +1,12 @@
 # disable lto rfbz#6570
 %global _lto_cflags %nil
 
-%global git_date 20260531
+%global git_date 20260630
 %global tag_version 2026.06
 
 Name:           cinelerra-gg
 Version:        5.1%{?tag_version:.%{tag_version}}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A non linear video editor and effects processor
 # The Cinelerra-GG codebase is licensed GPLv2+
 # The GREYcstoration plugin is licensed CeCILL v2.0
@@ -16,7 +16,7 @@ Summary:        A non linear video editor and effects processor
 License:        GPLv2+ and CeCILL and BSD and CC-BY and Public Domain
 URL:            https://cinelerra-gg.org/
 # https://download.cinelerra-gg.org/?path=src
-Source0:        https://download.cinelerra-gg.org/download.php?file=pkgs%2Fsrc%2Fcin_5.1.%{git_tag}-src.tgz#/cin_5.1.%{git_date}-src.tgz
+Source0:        https://download.cinelerra-gg.org/download.php?file=pkgs%2Fsrc%2Fcin_5.1.%{git_date}-src.tgz#/cin_5.1.%{git_date}-src.tgz
 
 # Only tested on x86_64
 ExclusiveArch:  x86_64
@@ -203,6 +203,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 
 %changelog
+* Sat Aug 01 2026 Leigh Scott <leigh123linux@gmail.com> - 5.1.2026.06-2
+- Update to latest monthly release
+
 * Tue Jun 23 2026 Leigh Scott <leigh123linux@gmail.com> - 5.1.2026.06-1
 - Update to latest monthly release
 
